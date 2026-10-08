@@ -6,7 +6,12 @@
 <meta name="theme-color" content="#7b5a16">
 
 <!-- Google Search Console -->
-<meta name="google-site-verification"
+<meta name="google-site-verification">
+
+<!-- Google AdSense -->
+<script async
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2329486273161479"
+  crossorigin="anonymous"></script>
 
 <title>Shadow Snake</title>
 
@@ -226,13 +231,11 @@ dialog::backdrop{
 
 </header>
 
-
 <main class="game-wrap">
 
 <canvas id="board" width="600" height="600"></canvas>
 
 </main>
-
 
 <nav class="modes">
 
@@ -250,7 +253,6 @@ dialog::backdrop{
 
 </nav>
 
-
 <section class="bottom">
 
 <button class="start" id="start">
@@ -264,7 +266,6 @@ Swipe on the board or use Arrow Keys / WASD.
 </section>
 
 </div>
-
 
 <dialog id="dialog">
 
@@ -286,52 +287,34 @@ Close
 
 </dialog>
 
-
 <script>
 
 const canvas=document.getElementById("board");
-
 const ctx=canvas.getContext("2d");
 
 const scoreEl=document.getElementById("score");
-
 const bestEl=document.getElementById("best");
-
 const startBtn=document.getElementById("start");
-
 const soundBtn=document.getElementById("sound");
 
-
 const N=20;
-
 const cell=canvas.width/N;
 
-
 let snake;
-
 let food;
-
 let dir;
-
 let nextDir;
-
 let score;
-
 let running=false;
-
 let mode="classic";
-
 let timer=null;
-
 let soundOn=true;
-
 
 let best=Number(
 localStorage.getItem("shadowSnakeBest") || 0
 );
 
 bestEl.textContent=best;
-
 
 function reset(){
 
@@ -342,19 +325,15 @@ snake=[
 ];
 
 dir={x:1,y:0};
-
 nextDir={x:1,y:0};
 
 score=0;
-
 scoreEl.textContent=0;
 
 placeFood();
-
 draw();
 
 }
-
 
 function placeFood(){
 
@@ -375,7 +354,6 @@ s=>s.x===food.x && s.y===food.y
 
 }
 
-
 function setDir(x,y){
 
 if(
@@ -387,22 +365,18 @@ nextDir={x,y};
 
 }
 
-
 function step(){
 
 dir=nextDir;
-
 
 let h={
 x:snake[0].x+dir.x,
 y:snake[0].y+dir.y
 };
 
-
 if(mode==="noborders"){
 
 h.x=(h.x+N)%N;
-
 h.y=(h.y+N)%N;
 
 }
@@ -418,7 +392,6 @@ return gameOver();
 
 }
 
-
 if(
 snake.some(
 (s,i)=>
@@ -432,9 +405,7 @@ return gameOver();
 
 }
 
-
 snake.unshift(h);
-
 
 if(
 h.x===food.x &&
@@ -442,14 +413,11 @@ h.y===food.y
 ){
 
 score++;
-
 scoreEl.textContent=score;
-
 
 if(score>best){
 
 best=score;
-
 bestEl.textContent=best;
 
 localStorage.setItem(
@@ -460,7 +428,6 @@ best
 }
 
 beep(620);
-
 placeFood();
 
 }
@@ -471,28 +438,23 @@ snake.pop();
 
 }
 
-
 draw();
 
 }
-
 
 function gameOver(){
 
 running=false;
 
 clearInterval(timer);
-
 timer=null;
 
 startBtn.textContent="▶ Play Again";
 
 beep(160);
-
 draw(true);
 
 }
-
 
 function start(){
 
@@ -508,22 +470,17 @@ timer=setInterval(step,125);
 
 }
 
-
 function togglePause(){
 
 if(!snake){
-
 return start();
-
 }
-
 
 if(running){
 
 running=false;
 
 clearInterval(timer);
-
 timer=null;
 
 startBtn.textContent="▶ Resume";
@@ -542,7 +499,6 @@ timer=setInterval(step,125);
 
 }
 
-
 function roundedRect(x,y,w,h,r){
 
 ctx.beginPath();
@@ -555,7 +511,6 @@ ctx.fill();
 
 }
 
-
 function draw(over=false){
 
 ctx.clearRect(
@@ -564,7 +519,6 @@ ctx.clearRect(
 canvas.width,
 canvas.height
 );
-
 
 for(let y=0;y<N;y++){
 
@@ -586,18 +540,15 @@ cell
 
 }
 
-
 const fx=
 food.x*cell+cell/2;
 
 const fy=
 food.y*cell+cell/2;
 
-
 ctx.font=`${cell*.72}px serif`;
 
 ctx.textAlign="center";
-
 ctx.textBaseline="middle";
 
 ctx.fillText(
@@ -605,7 +556,6 @@ ctx.fillText(
 fx,
 fy+2
 );
-
 
 snake.slice().reverse().forEach(
 (s)=>{
@@ -630,7 +580,6 @@ cell*.28
 }
 );
 
-
 const h=snake[0];
 
 const cx=
@@ -639,11 +588,8 @@ h.x*cell+cell/2;
 const cy=
 h.y*cell+cell/2;
 
-
 let ex=0;
-
 let ey=0;
-
 
 if(dir.x>0){
 
@@ -673,18 +619,15 @@ ey=-cell*.18;
 
 }
 
-
 for(
 const side of [-1,1]
 ){
 
 let ox,oy;
 
-
 if(dir.x!==0){
 
 ox=ex;
-
 oy=side*cell*.18;
 
 }
@@ -692,11 +635,9 @@ oy=side*cell*.18;
 else{
 
 ox=side*cell*.18;
-
 oy=ey;
 
 }
-
 
 ctx.fillStyle="#fff";
 
@@ -711,7 +652,6 @@ Math.PI*2
 );
 
 ctx.fill();
-
 
 ctx.fillStyle="#171717";
 
@@ -743,7 +683,6 @@ canvas.height
 ctx.fillStyle="#fff";
 
 ctx.font="bold 42px Arial";
-
 ctx.textAlign="center";
 
 ctx.fillText(
@@ -764,7 +703,6 @@ canvas.height/2+30
 
 }
 
-
 function beep(freq){
 
 if(!soundOn)return;
@@ -778,15 +716,12 @@ window.webkitAudioContext
 )();
 
 const o=A.createOscillator();
-
 const g=A.createGain();
 
 o.frequency.value=freq;
-
 g.gain.value=.035;
 
 o.connect(g);
-
 g.connect(A.destination);
 
 o.start();
@@ -801,7 +736,6 @@ catch(e){}
 
 }
 
-
 startBtn.onclick=()=>{
 
 running
@@ -809,7 +743,6 @@ running
 :start();
 
 };
-
 
 document
 .querySelectorAll(".mode")
@@ -832,7 +765,6 @@ reset();
 running=false;
 
 clearInterval(timer);
-
 timer=null;
 
 startBtn.textContent=
@@ -842,13 +774,11 @@ startBtn.textContent=
 
 });
 
-
 document.addEventListener(
 "keydown",
 e=>{
 
 const k=e.key.toLowerCase();
-
 
 if(
 ["arrowup","w"].includes(k)
@@ -858,7 +788,6 @@ setDir(0,-1);
 
 }
 
-
 if(
 ["arrowdown","s"].includes(k)
 ){
@@ -866,7 +795,6 @@ if(
 setDir(0,1);
 
 }
-
 
 if(
 ["arrowleft","a"].includes(k)
@@ -876,7 +804,6 @@ setDir(-1,0);
 
 }
 
-
 if(
 ["arrowright","d"].includes(k)
 ){
@@ -884,7 +811,6 @@ if(
 setDir(1,0);
 
 }
-
 
 if(k===" "){
 
@@ -898,24 +824,19 @@ running
 
 });
 
-
 let sx=0;
-
 let sy=0;
-
 
 canvas.addEventListener(
 "touchstart",
 e=>{
 
 sx=e.changedTouches[0].clientX;
-
 sy=e.changedTouches[0].clientY;
 
 },
 {passive:true}
 );
-
 
 canvas.addEventListener(
 "touchend",
@@ -924,9 +845,7 @@ e=>{
 const t=e.changedTouches[0];
 
 const dx=t.clientX-sx;
-
 const dy=t.clientY-sy;
-
 
 if(
 Math.max(
@@ -934,7 +853,6 @@ Math.abs(dx),
 Math.abs(dy)
 )<25
 )return;
-
 
 if(
 Math.abs(dx)>Math.abs(dy)
@@ -960,7 +878,6 @@ dy>0?1:-1
 {passive:true}
 );
 
-
 document.getElementById(
 "settings"
 ).onclick=()=>{
@@ -971,7 +888,6 @@ document.getElementById(
 
 };
 
-
 document.getElementById(
 "close"
 ).onclick=()=>{
@@ -981,7 +897,6 @@ document.getElementById(
 ).close();
 
 };
-
 
 document.getElementById(
 "fullscreen"
@@ -1007,7 +922,6 @@ catch(e){}
 
 };
 
-
 soundBtn.onclick=()=>{
 
 soundOn=!soundOn;
@@ -1016,7 +930,6 @@ soundBtn.textContent=
 soundOn?"🔊":"🔇";
 
 };
-
 
 reset();
 
